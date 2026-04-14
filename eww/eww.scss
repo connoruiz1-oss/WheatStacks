@@ -1,0 +1,77 @@
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  EWW STYLES -- Wheatstacks palette                          ║
+// ║                                                              ║
+// ║  SCSS for EWW widgets. Defines colors, spacing, hover fx.    ║
+// ║  EWW compiles SCSS automatically.                            ║
+// ╚══════════════════════════════════════════════════════════════╝
+
+// --- Palette ---
+$bg:        #1a1520;
+$bg-alt:    #252030;
+$fg:        #d4c4b0;
+$fg-dim:    #706868;
+$accent:    #b07050;
+$gold:      #c4a060;
+$rose:      #c08888;
+$lavender:  #9088a0;
+$sage:      #708070;
+$red:       #c06060;
+
+// --- Base ---
+* {
+  all: unset;
+  font-family: "JetBrains Mono Nerd Font";
+}
+
+// --- Date boxes ---
+.datebox {
+  background-color: rgba($bg, 0.85);
+  border: 1px solid rgba($fg, 0.15);
+  border-radius: 12px;
+  color: $fg;
+  font-size: 16px;
+  font-weight: bold;
+
+  &.day {
+    font-size: 22px;
+    color: $accent;
+  }
+
+  &.month {
+    color: $gold;
+  }
+
+  &.year {
+    color: $lavender;
+    font-size: 14px;
+  }
+}
+
+// --- Quick-launch bar ---
+.userinfobox {
+  background-color: rgba($bg, 0.85);
+  border: 1px solid rgba($fg, 0.15);
+  border-radius: 12px;
+  padding: 8px 16px;
+}
+
+.btn {
+  font-size: 20px;
+  color: $fg;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 200ms ease;
+
+  &:hover {
+    background-color: $accent;
+    color: $bg;
+  }
+
+  &.terminal { color: $gold; }
+  &.files    { color: $sage; }
+  &.launcher { color: $lavender; }
+
+  &.terminal:hover { background-color: $gold; color: $bg; }
+  &.files:hover    { background-color: $sage; color: $bg; }
+  &.launcher:hover { background-color: $lavender; color: $bg; }
+}

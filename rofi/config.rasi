@@ -1,0 +1,177 @@
+/* ╔══════════════════════════════════════════════════════════════╗
+ * ║  ROFI -- Spotlight-style launcher                            ║
+ * ║                                                              ║
+ * ║  macOS Spotlight is a narrow, centered, single-column        ║
+ * ║  search field that floats over your work. Results stack      ║
+ * ║  vertically beneath the search input as you type.            ║
+ * ║                                                              ║
+ * ║  We mirror that geometry while keeping the wheatstacks       ║
+ * ║  palette. The result is recognisably Spotlight-shaped but    ║
+ * ║  visually tied to the rest of the rice.                      ║
+ * ║                                                              ║
+ * ║  Test live:  rofi -show drun -theme this-file.rasi           ║
+ * ╚══════════════════════════════════════════════════════════════╝ */
+
+@import "colors.rasi"
+
+configuration {
+    /* ── Search behaviour: this is where rofi beats Spotlight ──
+     *
+     * Spotlight does substring + metadata indexing. Rofi can do real
+     * fuzzy matching with fzf-style ranking, frecency, and live mode
+     * switching. We turn all of that on here.
+     */
+
+    /* Fuzzy matching: typing "fox" matches "Firefox", "fzf-out", etc. */
+    matching:          "fuzzy";
+    /* fzf-style sort: weights matches by position, length, and recency,
+     * so the result you actually wanted ends up at the top. */
+    sorting-method:    "fzf";
+    sort:              true;
+    case-sensitive:    false;
+    /* Frecency: rofi remembers which entries you pick and ranks them
+     * higher next time. Spotlight does not really do this. */
+    disable-history:   false;
+    max-history-size:  100;
+
+    /* ── Modes ──
+     *
+     * "combi" merges several modes into a single search. You hit one
+     * keybind, you get apps + open windows + SSH hosts in one input.
+     * No "is this an app or a file?" friction.
+     *
+     * "filebrowser" gives you live filesystem traversal that feels
+     * like a competent Finder replacement.
+     */
+    modes:             "combi,drun,run,window,ssh,filebrowser";
+    combi-modes:       "drun,window,ssh";
+    /* Parse ~/.ssh/config and known_hosts for the ssh mode. */
+    parse-hosts:       true;
+    parse-known-hosts: true;
+
+    /* ── Mode switching inside the launcher ──
+     *
+     * Ctrl+Tab cycles forward through enabled modes. Ctrl+Shift+Tab
+     * cycles backward. So you can hit Super+D, type "fire", get
+     * Firefox, then Ctrl+Tab to switch the same query into the window
+     * mode and jump to an existing Firefox window instead.
+     */
+    kb-mode-next:      "Control+Tab";
+    kb-mode-previous:  "Control+Shift+Tab";
+    /* Cancel with Escape. Standard. */
+    kb-cancel:         "Escape";
+
+    /* ── Display ── */
+    show-icons:        true;
+    icon-theme:        "Papirus-Dark";
+    display-combi:     "Search";
+    display-drun:      "Apps";
+    display-run:       "Run";
+    display-window:    "Windows";
+    display-ssh:       "SSH";
+    display-filebrowser: "Files";
+    drun-display-format: "{name}";
+    /* SF-style UI font with a mono fallback for nerd-font icons. */
+    font:              "Inter Medium 13";
+    /* Hide scrollbar -- Spotlight does not show one. */
+    hide-scrollbar:    true;
+    sidebar-mode:      false;
+}
+
+/* --- Window: narrow, centered, sits in the upper third of the screen,
+ *     mimicking Spotlight's anchored position rather than dead-center. --- */
+window {
+    /* Absolute width keeps the panel narrow regardless of monitor size,
+     * which is closer to Spotlight's behaviour than a percentage. */
+    width:             580px;
+    /* Negative y offset moves the panel up from screen center toward the
+     * upper third, matching Spotlight's resting position. */
+    location:          center;
+    anchor:            center;
+    y-offset:          -200px;
+    x-offset:          0;
+
+    border:            0;
+    border-radius:     12px;
+    background-color:  @bg;
+    /* Strong shadow to lift the panel above content; configured in
+     * Hyprland's layerrule for actual blur underneath. */
+    padding:           0;
+}
+
+mainbox {
+    background-color:  transparent;
+    children:          [ inputbar, listview ];
+    spacing:           0;
+    padding:           0;
+}
+
+/* --- Search bar ---
+ * Tall, prominent, large font. The macOS search input is the dominant
+ * visual element. */
+inputbar {
+    background-color:  transparent;
+    padding:           14px 18px;
+    spacing:           12px;
+    children:          [ prompt, entry ];
+    /* Hairline divider between the search field and the results list,
+     * matching Spotlight's separator. */
+    border:            0 0 1px 0;
+    border-color:      @bg-alt;
+}
+
+prompt {
+    background-color:  transparent;
+    text-color:        @fg-dim;
+    font:              "JetBrains Mono Nerd Font 16";
+}
+
+entry {
+    background-color:  transparent;
+    text-color:        @fg;
+    placeholder:       "Spotlight Search";
+    placeholder-color: @fg-dim;
+    font:              "Inter 16";
+    cursor:            text;
+}
+
+/* --- Results list ---
+ * Single column. macOS Spotlight stacks results vertically with one
+ * "best match" highlighted at top. */
+listview {
+    background-color:  transparent;
+    columns:           1;
+    lines:             7;
+    spacing:           0;
+    padding:           6px 6px 8px 6px;
+    fixed-height:      false;
+    dynamic:           true;
+    cycle:             true;
+}
+
+element {
+    background-color:  transparent;
+    text-color:        @fg;
+    padding:           8px 12px;
+    border-radius:     6px;
+    spacing:           10px;
+    children:          [ element-icon, element-text ];
+}
+
+element selected {
+    background-color:  @accent;
+    text-color:        @bg;
+}
+
+element-icon {
+    size:              22px;
+    background-color:  transparent;
+    /* Icon vertically centered with the text. */
+    vertical-align:    0.5;
+}
+
+element-text {
+    background-color:  transparent;
+    text-color:        inherit;
+    vertical-align:    0.5;
+}

@@ -1,0 +1,14 @@
+/* ╔══════════════════════════════════════════════════════════════╗
+ * ║  ROFI COLORS -- Wheatstacks palette                         ║
+ * ║                                                              ║
+ * ║  To change your launcher colors, edit only this file.        ║
+ * ╚══════════════════════════════════════════════════════════════╝ */
+
+* {
+    bg:        #1a1520ee;
+    bg-alt:    #252030;
+    fg:        #d4c4b0;
+    fg-dim:    #706868;
+    accent:    #b07050;
+    urgent:    #c06060;
+}

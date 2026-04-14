@@ -1,0 +1,145 @@
+/* ╔══════════════════════════════════════════════════════════════╗
+ * ║  WAYBAR STYLE -- macOS menubar in Wheatstacks colors         ║
+ * ║                                                              ║
+ * ║  The macOS menubar is thin (about 24-28px), runs the full    ║
+ * ║  width of the display, sits flush with the top edge, has a   ║
+ * ║  hairline shadow underneath, and is heavily translucent      ║
+ * ║  with the wallpaper visible behind it.                       ║
+ * ║                                                              ║
+ * ║  We adopt that structure but keep the wheatstacks palette.   ║
+ * ║                                                              ║
+ * ║  Font: prefer a clean UI sans (Inter or system-ui style).    ║
+ * ║  Falls back to JetBrains Mono Nerd Font for the icons.       ║
+ * ╚══════════════════════════════════════════════════════════════╝ */
+
+/* --- Color variables --- */
+@define-color bg       #1a1520;
+@define-color bg-alt   #252030;
+@define-color bg-hover #302a3a;
+@define-color fg       #d4c4b0;
+@define-color fg-dim   #a09890;
+@define-color accent   #b07050;
+@define-color gold     #c4a060;
+@define-color rose     #c08888;
+@define-color lavender #9088a0;
+@define-color sage     #708070;
+@define-color sky      #a0a8b0;
+@define-color red      #c06060;
+
+/* --- Base bar --- */
+/* Heavily transparent, no border-radius (flush to screen edge), thin
+ * hairline at the bottom to separate the bar from window content,
+ * exactly like the macOS menubar separator. */
+window#waybar {
+    background-color: alpha(@bg, 0.55);
+    border: none;
+    border-bottom: 1px solid alpha(@bg-hover, 0.6);
+    border-radius: 0;
+    color: @fg;
+    /* Inter is the closest free analogue to SF Pro. JetBrains Mono is
+     * kept as a fallback so the nerd-font icons still render. */
+    font-family: "Inter", "SF Pro Text", "JetBrains Mono Nerd Font", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Remove default button styling */
+button {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* --- Consistent compact padding for all modules --- */
+#workspaces,
+#window,
+#clock,
+#pulseaudio,
+#network,
+#cpu,
+#memory,
+#tray {
+    padding: 0 10px;
+    margin: 0;
+    background: transparent;
+}
+
+/* --- Workspaces --- */
+/* Small pill indicators, low-key. macOS does not show workspaces in the
+ * menubar at all, but we are not willing to give them up entirely.
+ * Compromise: tight, subtle, monochrome until active. */
+#workspaces {
+    padding: 0 6px;
+}
+
+#workspaces button {
+    color: @fg-dim;
+    padding: 0 6px;
+    margin: 4px 1px;
+    border-radius: 4px;
+    background-color: transparent;
+    transition: color 100ms ease, background-color 100ms ease;
+}
+
+#workspaces button:hover {
+    color: @fg;
+    background-color: alpha(@bg-hover, 0.5);
+}
+
+#workspaces button.active {
+    color: @bg;
+    background-color: @accent;
+}
+
+#workspaces button.urgent {
+    color: @bg;
+    background-color: @red;
+}
+
+/* --- Active window title --- */
+/* Mirrors the macOS app-name slot. Bold, slightly emphasised. */
+#window {
+    color: @fg;
+    font-weight: 600;
+    padding-left: 14px;
+}
+
+/* When no window is focused, the module renders empty; nothing to do. */
+
+/* --- Clock --- */
+/* macOS clock is regular weight, not bold, sits in the menubar without
+ * fanfare. */
+#clock {
+    color: @fg;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+}
+
+/* --- Module-specific accent colors ---
+ * Kept from the wheatstacks palette so the bar still reads as ours. */
+#pulseaudio { color: @gold; }
+#network    { color: @sage; }
+#cpu        { color: @rose; }
+#memory     { color: @lavender; }
+
+/* --- Tray --- */
+#tray {
+    margin-right: 8px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}
+
+/* --- Tooltips ---
+ * Rounded, dark, like the macOS hover tooltips. */
+tooltip {
+    background-color: alpha(@bg, 0.95);
+    border: 1px solid @bg-hover;
+    border-radius: 6px;
+    color: @fg;
+}

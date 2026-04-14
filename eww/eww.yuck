@@ -1,0 +1,88 @@
+;; ╔══════════════════════════════════════════════════════════════╗
+;; ║  EWW WIDGETS -- Wheatstacks Desktop Overlays                ║
+;; ║                                                              ║
+;; ║  EWW (ElKowars Wacky Widgets) renders desktop overlays.      ║
+;; ║  This file defines the STRUCTURE. eww.scss defines the LOOK. ║
+;; ║                                                              ║
+;; ║  .yuck files use a Lisp-like syntax. Each (defwidget ...)    ║
+;; ║  is a component. Each (defwindow ...) places it on screen.   ║
+;; ║                                                              ║
+;; ║  Docs: https://elkowar.github.io/eww/                       ║
+;; ╚══════════════════════════════════════════════════════════════╝
+
+;; ── Variables (polled from shell commands) ──
+
+;; Current date parts, updated every second
+(defpoll DAY :interval "1s"
+  `date +%d | awk '{
+    d = $0 + 0;
+    if (d == 1 || d == 21 || d == 31) s = "st";
+    else if (d == 2 || d == 22) s = "nd";
+    else if (d == 3 || d == 23) s = "rd";
+    else s = "th";
+    printf "%d%s", d, s
+  }'`)
+
+(defpoll MONTH :interval "60s" `date +%b`)
+(defpoll YEAR  :interval "3600s" `date +%Y`)
+(defpoll TIME  :interval "1s" `date +%H:%M`)
+
+;; ── Widgets ──
+
+;; Date display: shows day with ordinal suffix
+(defwidget daybox []
+  (box :class "datebox day" :halign "center" :valign "center"
+    (label :text DAY)))
+
+;; Month display
+(defwidget monthbox []
+  (box :class "datebox month" :halign "center" :valign "center"
+    (label :text MONTH)))
+
+;; Year display
+(defwidget yearbox []
+  (box :class "datebox year" :halign "center" :valign "center"
+    (label :text YEAR)))
+
+;; Quick-launch buttons: terminal, files, app launcher
+(defwidget userinfobox []
+  (centerbox :class "userinfobox" :orientation "h"
+    (button :class "btn terminal" :onclick "kitty &" "")
+    (button :class "btn files" :onclick "thunar &" "")
+    (button :class "btn launcher" :onclick "rofi -show drun -theme ~/.config/rofi/config.rasi &" "")))
+
+;; ── Windows (position widgets on screen) ──
+;; anchor: "bottom right" means offsets are from bottom-right corner.
+;; stacking: "bg" means below all normal windows.
+
+(defwindow daybox
+  :monitor 0
+  :geometry (geometry :x "30px" :y "30px" :width "100px" :height "100px" :anchor "bottom right")
+  :stacking "bg"
+  :exclusive false
+  :focusable false
+  (daybox))
+
+(defwindow monthbox
+  :monitor 0
+  :geometry (geometry :x "140px" :y "30px" :width "100px" :height "100px" :anchor "bottom right")
+  :stacking "bg"
+  :exclusive false
+  :focusable false
+  (monthbox))
+
+(defwindow yearbox
+  :monitor 0
+  :geometry (geometry :x "250px" :y "30px" :width "100px" :height "100px" :anchor "bottom right")
+  :stacking "bg"
+  :exclusive false
+  :focusable false
+  (yearbox))
+
+(defwindow userinfobox
+  :monitor 0
+  :geometry (geometry :x "30px" :y "140px" :width "320px" :height "80px" :anchor "bottom right")
+  :stacking "bg"
+  :exclusive false
+  :focusable false
+  (userinfobox))

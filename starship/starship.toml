@@ -1,0 +1,106 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  STARSHIP PROMPT CONFIG                                     ║
+# ║                                                              ║
+# ║  Starship renders your shell prompt. This config gives you:  ║
+# ║  - Username and directory on the left                        ║
+# ║  - Git info, language versions, time on the right            ║
+# ║  - Wheatstacks colors throughout                             ║
+# ║                                                              ║
+# ║  This file goes at ~/.config/starship.toml                   ║
+# ║  (or set STARSHIP_CONFIG to point elsewhere)                 ║
+# ║  Docs: https://starship.rs/config/                           ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+# Don't add a blank line between prompts (keeps it compact)
+add_newline = false
+
+# --- Prompt layout ---
+# Left side: user context + directory + git + prompt character
+format = """
+$username\
+$directory\
+$git_branch\
+$git_status\
+$fill\
+$python\
+$rust\
+$nodejs\
+$cmd_duration\
+$time\
+$line_break\
+$character"""
+
+# --- Modules ---
+
+[username]
+show_always = true
+format = "[$user]($style) "
+style_user = "#c4a060"      # gold for normal user
+style_root = "#c06060 bold" # red for root (danger!)
+
+[directory]
+format = "[$path]($style)[$read_only]($read_only_style) "
+style = "#9088a0"           # lavender
+read_only = " "
+read_only_style = "#c06060"
+truncation_length = 3
+truncation_symbol = ".../"
+# Home directory shows as ~
+home_symbol = "~"
+
+[git_branch]
+format = "[$symbol$branch(:$remote_branch)]($style) "
+symbol = " "
+style = "#80a078"           # sage green
+truncation_length = 24
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+style = "#c4a060"           # gold
+# Symbols for different states:
+modified = " "            # files changed but not staged
+staged = " "              # files staged for commit
+untracked = " "           # new files git doesn't know about
+deleted = " "             # deleted files
+renamed = " "             # renamed files
+conflicted = " "          # merge conflicts
+ahead = "  ${count}"       # commits ahead of remote
+behind = "  ${count}"      # commits behind remote
+diverged = "  ${ahead_count}  ${behind_count}"
+
+[character]
+# The prompt character changes color on success/failure
+success_symbol = "[>](bold #b07050)"   # russet
+error_symbol = "[>](bold #c06060)"     # red
+vimcmd_symbol = "[<](bold #80a078)"    # sage (vim normal mode)
+
+[fill]
+# Fills the space between left and right sections
+symbol = " "
+
+[cmd_duration]
+# Shows how long the last command took (if > 2 seconds)
+format = "[$duration]($style) "
+style = "#706868"           # dim
+min_time = 2000
+
+[time]
+disabled = false
+format = "[$time]($style)"
+style = "#706868"           # dim
+time_format = "%H:%M"
+
+[python]
+format = "[$symbol$version]($style) "
+symbol = " "
+style = "#c4a060"
+
+[rust]
+format = "[$symbol$version]($style) "
+symbol = " "
+style = "#c06060"
+
+[nodejs]
+format = "[$symbol$version]($style) "
+symbol = " "
+style = "#80a078"

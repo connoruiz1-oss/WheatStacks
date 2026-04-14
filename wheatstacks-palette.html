@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body { background: #1a1520; color: #d4c4b0; font-family: 'JetBrains Mono', monospace, sans-serif; padding: 40px; }
+h1 { font-size: 20px; margin-bottom: 5px; }
+h2 { font-size: 14px; font-weight: normal; color: #a09890; margin-bottom: 30px; }
+.group { margin-bottom: 30px; }
+.group-label { font-size: 12px; color: #706868; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+.row { display: flex; gap: 12px; flex-wrap: wrap; }
+.swatch { width: 120px; }
+.color-box { width: 120px; height: 70px; border-radius: 8px; border: 1px solid #302a3a; }
+.color-label { font-size: 11px; margin-top: 6px; color: #a09890; }
+.color-hex { font-size: 12px; color: #d4c4b0; }
+
+.demo { margin-top: 40px; padding: 24px; background: #252030; border-radius: 12px; border: 1px solid #302a3a; }
+.demo-bar { display: flex; align-items: center; gap: 12px; padding: 8px 16px; background: #1a1520; border-radius: 8px; margin-bottom: 16px; }
+.demo-ws { padding: 4px 12px; border-radius: 4px; font-size: 13px; }
+.demo-ws.active { background: #b07050; color: #1a1520; }
+.demo-ws.inactive { color: #706868; }
+.demo-clock { margin-left: auto; font-size: 13px; color: #a09890; }
+.demo-window { background: #1a1520; border: 1px solid #302a3a; border-radius: 8px; padding: 16px; margin-top: 12px; }
+.demo-title { font-size: 12px; color: #9088a0; margin-bottom: 8px; }
+.demo-prompt { font-size: 13px; }
+.demo-prompt .user { color: #c4a060; }
+.demo-prompt .path { color: #9088a0; }
+.demo-prompt .git { color: #80a078; }
+.demo-prompt .char { color: #b07050; }
+.demo-prompt .cmd { color: #d4c4b0; }
+</style>
+</head>
+<body>
+<h1>Wheatstacks Rice Palette</h1>
+<h2>Inspired by Claude Monet, "Stacks of Wheat (End of Summer)" 1890-91</h2>
+
+<div class="group">
+<div class="group-label">Backgrounds</div>
+<div class="row">
+<div class="swatch"><div class="color-box" style="background:#1a1520"></div><div class="color-hex">#1a1520</div><div class="color-label">bg_dark</div></div>
+<div class="swatch"><div class="color-box" style="background:#252030"></div><div class="color-hex">#252030</div><div class="color-label">bg_surface</div></div>
+<div class="swatch"><div class="color-box" style="background:#302a3a"></div><div class="color-hex">#302a3a</div><div class="color-label">bg_overlay</div></div>
+</div></div>
+
+<div class="group">
+<div class="group-label">Foregrounds</div>
+<div class="row">
+<div class="swatch"><div class="color-box" style="background:#d4c4b0"></div><div class="color-hex">#d4c4b0</div><div class="color-label">fg_primary</div></div>
+<div class="swatch"><div class="color-box" style="background:#a09890"></div><div class="color-hex">#a09890</div><div class="color-label">fg_secondary</div></div>
+<div class="swatch"><div class="color-box" style="background:#706868"></div><div class="color-hex">#706868</div><div class="color-label">fg_dim</div></div>
+</div></div>
+
+<div class="group">
+<div class="group-label">Accents</div>
+<div class="row">
+<div class="swatch"><div class="color-box" style="background:#b07050"></div><div class="color-hex">#b07050</div><div class="color-label">accent_warm (russet)</div></div>
+<div class="swatch"><div class="color-box" style="background:#c4a060"></div><div class="color-hex">#c4a060</div><div class="color-label">accent_gold</div></div>
+<div class="swatch"><div class="color-box" style="background:#c08888"></div><div class="color-hex">#c08888</div><div class="color-label">accent_rose</div></div>
+<div class="swatch"><div class="color-box" style="background:#9088a0"></div><div class="color-hex">#9088a0</div><div class="color-label">accent_lavender</div></div>
+<div class="swatch"><div class="color-box" style="background:#708070"></div><div class="color-hex">#708070</div><div class="color-label">accent_sage</div></div>
+<div class="swatch"><div class="color-box" style="background:#a0a8b0"></div><div class="color-hex">#a0a8b0</div><div class="color-label">accent_sky</div></div>
+</div></div>
+
+<div class="group">
+<div class="group-label">Semantic</div>
+<div class="row">
+<div class="swatch"><div class="color-box" style="background:#c06060"></div><div class="color-hex">#c06060</div><div class="color-label">error</div></div>
+<div class="swatch"><div class="color-box" style="background:#c4a060"></div><div class="color-hex">#c4a060</div><div class="color-label">warning</div></div>
+<div class="swatch"><div class="color-box" style="background:#80a078"></div><div class="color-hex">#80a078</div><div class="color-label">success</div></div>
+<div class="swatch"><div class="color-box" style="background:#8090a8"></div><div class="color-hex">#8090a8</div><div class="color-label">info</div></div>
+</div></div>
+
+<div class="group">
+<div class="group-label">Terminal Colors (16-color)</div>
+<div class="row">
+<div class="swatch"><div class="color-box" style="background:#1a1520; height:40px"></div><div class="color-hex">#1a1520</div><div class="color-label">0 black</div></div>
+<div class="swatch"><div class="color-box" style="background:#c06060; height:40px"></div><div class="color-hex">#c06060</div><div class="color-label">1 red</div></div>
+<div class="swatch"><div class="color-box" style="background:#80a078; height:40px"></div><div class="color-hex">#80a078</div><div class="color-label">2 green</div></div>
+<div class="swatch"><div class="color-box" style="background:#c4a060; height:40px"></div><div class="color-hex">#c4a060</div><div class="color-label">3 yellow</div></div>
+<div class="swatch"><div class="color-box" style="background:#8090a8; height:40px"></div><div class="color-hex">#8090a8</div><div class="color-label">4 blue</div></div>
+<div class="swatch"><div class="color-box" style="background:#9088a0; height:40px"></div><div class="color-hex">#9088a0</div><div class="color-label">5 magenta</div></div>
+<div class="swatch"><div class="color-box" style="background:#708070; height:40px"></div><div class="color-hex">#708070</div><div class="color-label">6 cyan</div></div>
+<div class="swatch"><div class="color-box" style="background:#d4c4b0; height:40px"></div><div class="color-hex">#d4c4b0</div><div class="color-label">7 white</div></div>
+</div>
+<div class="row" style="margin-top:8px">
+<div class="swatch"><div class="color-box" style="background:#302a3a; height:40px"></div><div class="color-hex">#302a3a</div><div class="color-label">8 bright black</div></div>
+<div class="swatch"><div class="color-box" style="background:#d08070; height:40px"></div><div class="color-hex">#d08070</div><div class="color-label">9 bright red</div></div>
+<div class="swatch"><div class="color-box" style="background:#98b890; height:40px"></div><div class="color-hex">#98b890</div><div class="color-label">10 bright green</div></div>
+<div class="swatch"><div class="color-box" style="background:#d4b878; height:40px"></div><div class="color-hex">#d4b878</div><div class="color-label">11 bright yellow</div></div>
+<div class="swatch"><div class="color-box" style="background:#a0a8b0; height:40px"></div><div class="color-hex">#a0a8b0</div><div class="color-label">12 bright blue</div></div>
+<div class="swatch"><div class="color-box" style="background:#a898b0; height:40px"></div><div class="color-hex">#a898b0</div><div class="color-label">13 bright magenta</div></div>
+<div class="swatch"><div class="color-box" style="background:#88a090; height:40px"></div><div class="color-hex">#88a090</div><div class="color-label">14 bright cyan</div></div>
+<div class="swatch"><div class="color-box" style="background:#e8ddd0; height:40px"></div><div class="color-hex">#e8ddd0</div><div class="color-label">15 bright white</div></div>
+</div>
+</div>
+
+<div class="group">
+<div class="group-label">Desktop Preview</div>
+<div class="demo">
+<div class="demo-bar">
+<div class="demo-ws active">1</div>
+<div class="demo-ws inactive">2</div>
+<div class="demo-ws inactive">3</div>
+<div class="demo-ws inactive">4</div>
+<div class="demo-ws inactive">5</div>
+<div class="demo-clock">14:32 &nbsp; &bull; &nbsp; 68%</div>
+</div>
+<div class="demo-window">
+<div class="demo-title">~ kitty</div>
+<div class="demo-prompt">
+<span class="user">connor</span> <span class="path">~/dotfiles</span> <span class="git">(main)</span> <span class="char">&gt;</span> <span class="cmd">neofetch</span>
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

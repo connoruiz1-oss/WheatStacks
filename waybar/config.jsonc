@@ -1,0 +1,105 @@
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  WAYBAR CONFIG -- macOS menubar styling                      ║
+// ║                                                              ║
+// ║  Layout intent:                                              ║
+// ║    LEFT   -- workspaces + active window title                ║
+// ║              (mirrors the macOS Apple menu + app menu slot)  ║
+// ║    CENTER -- clock                                           ║
+// ║    RIGHT  -- system status icons                             ║
+// ║              (mirrors the macOS notification icons cluster)  ║
+// ║                                                              ║
+// ║  The bar runs flush to the screen edges (no margin) so it    ║
+// ║  reads as a system menubar rather than a floating widget.    ║
+// ║                                                              ║
+// ║  Restart:  killall waybar && waybar &                        ║
+// ║  Docs:     https://github.com/Alexays/Waybar/wiki            ║
+// ╚══════════════════════════════════════════════════════════════╝
+{
+    "layer": "top",
+    "position": "top",
+    "height": 28,
+    // Margins are zero so the bar hugs the screen edge like macOS.
+    "margin-top": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    "spacing": 0,
+
+    "modules-left": [
+        "hyprland/workspaces",
+        "hyprland/window"
+    ],
+    "modules-center": [
+        "clock"
+    ],
+    "modules-right": [
+        "pulseaudio",
+        "network",
+        "cpu",
+        "memory",
+        "tray"
+    ],
+
+    // ── Module configs ──
+
+    "hyprland/workspaces": {
+        "format": "{id}",
+        "on-click": "activate",
+        "sort-by-number": true,
+        "all-outputs": true
+    },
+
+    // The active window title acts like the macOS app-name menu slot.
+    // Truncated so a long title cannot eat the whole bar.
+    "hyprland/window": {
+        "format": "{title}",
+        "max-length": 70,
+        "separate-outputs": true,
+        "rewrite": {
+            "(.*) - Mozilla Firefox": "Firefox - $1",
+            "(.*) - Obsidian.*": "Obsidian - $1",
+            "(.*) - Visual Studio Code": "Code - $1"
+        }
+    },
+
+    "clock": {
+        // macOS menubar clock format: weekday, time. We swap to full date
+        // on click via format-alt.
+        "format": "{:%a %b %-d  %-I:%M %p}",
+        "format-alt": "{:%A, %B %-d, %Y}",
+        "tooltip-format": "<tt>{calendar}</tt>"
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "  muted",
+        "format-icons": {
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol",
+        "scroll-step": 5
+    },
+
+    "network": {
+        "format-wifi": "  {signalStrength}%",
+        "format-ethernet": "  {ipaddr}",
+        "format-disconnected": "  offline",
+        "tooltip-format": "{ifname}: {ipaddr}/{cidr}\n{essid} ({signalStrength}%)"
+    },
+
+    "cpu": {
+        "format": "  {usage}%",
+        "interval": 5,
+        "tooltip": true
+    },
+
+    "memory": {
+        "format": "  {percentage}%",
+        "interval": 5,
+        "tooltip-format": "{used:0.1f}G / {total:0.1f}G"
+    },
+
+    "tray": {
+        "icon-size": 14,
+        "spacing": 8
+    }
+}

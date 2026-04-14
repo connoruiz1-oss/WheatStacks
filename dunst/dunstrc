@@ -1,0 +1,117 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  DUNST -- macOS-style notification toasts                    ║
+# ║                                                              ║
+# ║  macOS notifications:                                        ║
+# ║    - Anchored top-right                                      ║
+# ║    - Rounded corners                                         ║
+# ║    - Stack vertically with a small gap                       ║
+# ║    - Slide off-screen after a few seconds                    ║
+# ║    - Subtle, low contrast with the wallpaper                 ║
+# ║                                                              ║
+# ║  We reproduce that behaviour and color it from the           ║
+# ║  wheatstacks palette. dunst does not blur (Wayland blur is   ║
+# ║  the compositor's job), but Hyprland's layerrule = blur on   ║
+# ║  the dunst layer takes care of that.                         ║
+# ║                                                              ║
+# ║  Reload:  killall dunst && dunst &                           ║
+# ║  Test:    notify-send "Hello" "World"                        ║
+# ║  Docs:    man 5 dunst                                        ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+[global]
+    # ── Geometry ──
+    # monitor 0 = primary. origin top-right. offset from corner = 12,40
+    # so the toast clears the menubar (28px) plus a small gap.
+    monitor = 0
+    follow = mouse
+    origin = top-right
+    offset = 12x40
+    width = 360
+    height = 100
+    notification_limit = 5
+    progress_bar = true
+    progress_bar_height = 6
+    progress_bar_frame_width = 0
+    progress_bar_min_width = 150
+    progress_bar_max_width = 320
+
+    # ── Appearance ──
+    # Subtle hairline border, rounded corners, soft shadow handled by
+    # Hyprland decoration on the layer (see hypr/hyprland/rules.conf).
+    transparency = 10
+    separator_height = 2
+    padding = 12
+    horizontal_padding = 16
+    text_icon_padding = 12
+    frame_width = 1
+    frame_color = "#302a3a"
+    corner_radius = 10
+    gap_size = 6
+    separator_color = frame
+    sort = yes
+
+    # ── Text ──
+    font = Inter Medium 11
+    line_height = 4
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    vertical_alignment = center
+    show_age_threshold = 60
+    ellipsize = middle
+    ignore_newline = no
+    stack_duplicates = true
+    hide_duplicate_count = false
+    show_indicators = yes
+
+    # ── Icons ──
+    icon_position = left
+    min_icon_size = 32
+    max_icon_size = 48
+    icon_path = /usr/share/icons/Papirus-Dark/16x16/status/:/usr/share/icons/Papirus-Dark/16x16/devices/
+
+    # ── History ──
+    sticky_history = yes
+    history_length = 20
+
+    # ── Misc ──
+    dmenu = /usr/bin/rofi -dmenu -p dunst
+    browser = /usr/bin/xdg-open
+    always_run_script = true
+    title = Dunst
+    class = Dunst
+    corner_radius = 10
+    ignore_dbusclose = false
+
+    # ── Mouse ──
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
+
+[experimental]
+    per_monitor_dpi = false
+
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  Urgency tiers                                               ║
+# ║                                                              ║
+# ║  Each app's notify-send call carries an urgency level.       ║
+# ║  We map them to the wheatstacks palette so the urgency       ║
+# ║  reads visually without screaming.                           ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+[urgency_low]
+    background = "#1a1520ee"
+    foreground = "#a09890"
+    timeout = 4
+    # Optional sound by app -- left blank to keep things quiet.
+
+[urgency_normal]
+    background = "#1a1520f5"
+    foreground = "#d4c4b0"
+    timeout = 6
+
+[urgency_critical]
+    background = "#1a1520ff"
+    foreground = "#d4c4b0"
+    frame_color = "#c06060"
+    timeout = 0
