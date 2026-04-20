@@ -131,6 +131,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
             eww
             hyprpicker
             swappy
+            wtype
         )
         yay -S --needed --noconfirm "${AUR_PKGS[@]}" || warn "Some AUR packages may have failed"
     elif command -v paru &>/dev/null; then
@@ -139,6 +140,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
             eww
             hyprpicker
             swappy
+            wtype
         )
         paru -S --needed --noconfirm "${AUR_PKGS[@]}" || warn "Some AUR packages may have failed"
     else
